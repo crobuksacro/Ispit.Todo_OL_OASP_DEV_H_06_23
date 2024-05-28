@@ -4,6 +4,8 @@ namespace Ispit.Todo.Models.Dbo
 {
     public class ApplicationUser: IdentityUser
     {
-        public ICollection<ToDoList> ToDoLists { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public ICollection<ToDoList>? ToDoLists { get; set; }
     }
 }

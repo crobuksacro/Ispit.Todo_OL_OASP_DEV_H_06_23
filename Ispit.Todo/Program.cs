@@ -1,5 +1,8 @@
 using Ispit.Todo.Data;
+using Ispit.Todo.Mapping;
 using Ispit.Todo.Models.Dbo;
+using Ispit.Todo.Services.Implementations;
+using Ispit.Todo.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +38,9 @@ namespace Ispit.Todo
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             var app = builder.Build();
 

@@ -1,4 +1,6 @@
 using Ispit.Todo.Models;
+using Ispit.Todo.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,17 +8,27 @@ namespace Ispit.Todo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IAccountService accountService;
+
+
+        public HomeController(IAccountService accountService)
         {
-            _logger = logger;
+           this.accountService = accountService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var profile = await accountService.GetUserProfileAsync(User);
+            return View(profile);
+        }
+
 
         public IActionResult Privacy()
         {
