@@ -1,4 +1,5 @@
 using Ispit.Todo.Models;
+using Ispit.Todo.Models.Dbo;
 using Ispit.Todo.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,32 @@ namespace Ispit.Todo.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public async Task<IActionResult> MyTodoList()
+        {
+            var myTodoList = await accountService.GetTodoList(User);
+
+            return View(myTodoList);
+        }
+
+
+
+        [Authorize]
+        public IActionResult CreateTodoList()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult CreateTodoList(ToDoList model)
+        {
+            accountService.AddTodoList(model, User);
+
+            return RedirectToAction("Profile");
+        }
+
 
         [Authorize]
         public async Task<IActionResult> Profile()

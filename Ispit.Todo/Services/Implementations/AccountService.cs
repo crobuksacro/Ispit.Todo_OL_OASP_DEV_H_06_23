@@ -24,6 +24,23 @@ namespace Ispit.Todo.Services.Implementations
             this.mapper = mapper;
         }
 
+        public async System.Threading.Tasks.Task<List<ToDoList>> GetTodoList(ClaimsPrincipal user)
+        {
+            var userId = userManager.GetUserId(user);
+            var response = db.ToDoLists.Where(y => y.ApplicationUserId == userId).ToList();
+            return response;
+
+
+        }
+
+
+        public async System.Threading.Tasks.Task AddTodoList(ToDoList dbo, ClaimsPrincipal user)
+        {
+            dbo.ApplicationUserId = userManager.GetUserId(user);
+            db.ToDoLists.Add(dbo);
+            await db.SaveChangesAsync();
+        }
+
         /// <summary>
         /// Get current user profile
         /// </summary>
